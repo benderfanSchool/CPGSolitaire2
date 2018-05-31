@@ -16,22 +16,27 @@ public class MainClass implements MouseListener
 {
 	private static final int PLAYINGCARDHEIGHT = 25;
 	private static final int PLAYINGCARDWIDTH = 35;
+	
 	private static final int BUTTONFONTSIZE = 70;
+	
 	private static int screenState = 0;
 	private static Dimension screenSize = Toolkit.getDefaultToolkit().getScreenSize();
-	private static final Rectangle PLAYBUTTON = new Rectangle(0, 0, 500, 250);
-	private static final Rectangle EXITBUTTON = new Rectangle(0, 260, 500, 250);
-	private static final Rectangle KLONDIKEBUTTON = new Rectangle(0, 0, 500, 250);
-	private static final Rectangle BACKBUTTON = new Rectangle(0, (int)screenSize.getHeight()-250, 500, 250);
+	
+	private static final Rectangle PLAYBUTTON = new Rectangle((screenSize.width/2) - 250, (screenSize.height/3) - 175, 500, 250); //Centered Play Button
+	private static final Rectangle EXITBUTTON = new Rectangle((screenSize.width/2) - 250, (2*screenSize.height/3) - 175, 500, 250); //Centered Exit button
+	private static final Rectangle KLONDIKEBUTTON = new Rectangle(0, 0, 500, 250); //Top left corner Klondike Button
+	private static final Rectangle BACKBUTTON = new Rectangle(0, (int)screenSize.getHeight()-250, 500, 250); //Bottom right corner back button
+	private static Rectangle DECK = new Rectangle(screenSize.width - (PLAYINGCARDWIDTH + 10), screenSize.height - (PLAYINGCARDHEIGHT + 10), PLAYINGCARDWIDTH, PLAYINGCARDHEIGHT);
+	
 	private static GraphicsConsole gc = new GraphicsConsole(true, screenSize.width, screenSize.height);
 	
-	private MainClass()
+	private MainClass()//Constructor
 	{
 		gc.addMouseListener(this);
 		gc.setAntiAlias(true);
 	}
 	
-	public static void main(String[] args) 
+	public static void main(String[] args)//main
 	{
 		Font defaultFont = new Font("Monospaced", Font.BOLD, BUTTONFONTSIZE);
 		
@@ -39,8 +44,9 @@ public class MainClass implements MouseListener
 		
 		while(true)
 		{
-			if(screenState == 0)
+			if(screenState == 0) //Initial screen    Play or exit Menu
 			{
+				//Draw buttons
 				gc.setColor(Color.CYAN);
 				gc.fillRect(PLAYBUTTON.x, PLAYBUTTON.y, PLAYBUTTON.width, PLAYBUTTON.height);
 				gc.setColor(Color.RED);
@@ -53,13 +59,15 @@ public class MainClass implements MouseListener
 				
 				while(screenState == 0)
 				{
+					//delay
 					gc.sleep(1);
 				}
 				
+				//clear screen
 				gc.clear();
 			}
 			
-			if(screenState == 1)
+			if(screenState == 1) //Game modes screen    Klondike and back
 			{
 				gc.setColor(Color.BLUE);
 				gc.fillRect(KLONDIKEBUTTON.x, KLONDIKEBUTTON.y, KLONDIKEBUTTON.width, KLONDIKEBUTTON.height);
@@ -79,17 +87,34 @@ public class MainClass implements MouseListener
 				
 				gc.clear();
 			}
+			if(screenState == 2)
+			{
+				gc.setColor(Color.GREEN);
+				gc.fillRect(DECK.x, DECK.y, DECK.width, DECK.height);
+				
+				gc.setColor(Color.RED);
+				gc.fillRect(BACKBUTTON.x, BACKBUTTON.y, BACKBUTTON.width, BACKBUTTON.height);
+				gc.setColor(Color.BLACK);
+				gc.drawString("Back", BACKBUTTON.x+BUTTONFONTSIZE, BACKBUTTON.y+(BUTTONFONTSIZE*2));
+				
+				while(screenState == 2)
+				{
+					gc.sleep(1);
+				}
+				
+				gc.clear();
+			}
 		}
 	}
 
 	@Override
-	public void mouseClicked(MouseEvent e)
+	public void mouseClicked(MouseEvent e) //clicking buttons
 	{
 		int x = e.getX();
 		int y = e.getY();
 		
 		System.out.println("Click");
-		if(screenState == 0)
+		if(screenState == 0) //Initial menu
 		{	
 			if(PLAYBUTTON.contains(e.getPoint()))
 			{
@@ -100,7 +125,7 @@ public class MainClass implements MouseListener
 				System.exit(0);
 			}
 		}
-		else if(screenState == 1)
+		else if(screenState == 1) //Game Select
 		{
 			if(KLONDIKEBUTTON.contains(e.getPoint()))
 			{
@@ -110,6 +135,14 @@ public class MainClass implements MouseListener
 			{
 				screenState = 0;
 			}
+		}
+		else if(screenState == 2) //Klondike Game
+		{
+			if(BACKBUTTON.contains(e.getPoint()))
+			{
+				screenState = 1;
+			}
+			
 		}
 	}
 
@@ -126,8 +159,17 @@ public class MainClass implements MouseListener
 	}
 
 	@Override
-	public void mousePressed(MouseEvent arg0) {
-		// TODO Auto-generated method stub
+	public void mousePressed(MouseEvent e) {
+		if(screenState == 2)
+		{
+			if(DECK.contains(e.getPoint())){
+				
+				gc.drawString("DRAG", 250, 250);
+				
+				DECK.x = e.getX();
+				DECK.y = e.getY();
+			}
+		}
 		
 	}
 
@@ -136,4 +178,5 @@ public class MainClass implements MouseListener
 		// TODO Auto-generated method stub
 		
 	}
+	
 }

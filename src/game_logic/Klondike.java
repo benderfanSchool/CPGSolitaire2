@@ -2,17 +2,25 @@ package game_logic;
 
 import hsa2.GraphicsConsole;
 
+/**
+ * public class Klondike
+ * <p>
+ * Contains all the logic required for playing Klondike solitaire
+ * <p>
+ * @author gallalex111
+ * @version 0.1
+ */
 public class Klondike
 {
-	private CardStack deck = new CardStack();
+	private CardStack deck = new CardStack(); //The deck
 	private CardStack[] tableau = new CardStack[7]; //The cards in play
 	private CardStack[] foundations = new CardStack[4]; //The foundations, ordered from left to right
 	private CardStack talon = new CardStack(); //The cards in play that aren't on the tableau and aren't in the foundations
+	private long score = 0;
 	
-	public Klondike(GraphicsConsole gc)
+	public Klondike()
 	{
 		init();
-		play(gc);
 	}
 	
 	private void init()
@@ -62,15 +70,53 @@ public class Klondike
 		foundations[1] = new CardStack();
 		foundations[2] = new CardStack();
 		foundations[3] = new CardStack();
+		
+		for(int i = 0; i < tableau.length; i++)
+		{
+			initTableau(tableau[i], i+1);
+		}
 	}
 	
-	private void play(GraphicsConsole gc)
+	public CardStack getTalon()
 	{
-		
+		return talon;
+	}
+	
+	public CardStack getDeck()
+	{
+		return deck;
+	}
+	
+	public CardStack getTableauCol(int col)
+	{
+		return tableau[col];
+	}
+	
+	public CardStack getFoundation(int col)
+	{
+		return foundations[col];
+	}
+	
+	public long getScore()
+	{
+		return score;
+	}
+	
+	public void draw()
+	{
+		talon.push(deck.pop());
 	}
 	
 	private int rand(int high, int low)
 	{
 		return (int)((Math.random()*(high-low))+low);
+	}
+	
+	private void initTableau(CardStack col, int colNum)
+	{
+		for(int i = 0; i < colNum; i++)
+		{
+			col.push(deck.pop());
+		}
 	}
 }

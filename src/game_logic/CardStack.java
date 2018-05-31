@@ -13,7 +13,7 @@ public class CardStack
 {
 	public CardStack(Card card)
 	{
-		header = new Node(card);
+		header = new Node(card, 0);
 	}
 	
 	public CardStack()
@@ -25,10 +25,12 @@ public class CardStack
 	{
 		Node link;
 		Card card;
+		int stackPos;
 		
-		public Node(Card card)
+		public Node(Card card, int stackPos)
 		{
 			this.card = card;
+			this.stackPos = stackPos;
 		}
 	}
 	
@@ -72,7 +74,7 @@ public class CardStack
 	 */
 	public void push(Card card)
 	{
-		push(card, header);
+		push(card, header, 0);
 	}
 	
 	/**
@@ -83,15 +85,15 @@ public class CardStack
 	 * @param card the card being placed
 	 * @param node the node currently being worked on
 	 */
-	private void push(Card card, Node node)
+	private void push(Card card, Node node, int stackPos)
 	{
 		if(node.link == null)
 		{
-			node = new Node(card);
+			node = new Node(card, stackPos);
 		}
 		else
 		{
-			push(card, node.link);
+			push(card, node.link, stackPos++);
 		}
 	}
 	
@@ -138,6 +140,4 @@ public class CardStack
 			return false;
 		}
 	}
-	
-	
 }
