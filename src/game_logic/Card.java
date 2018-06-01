@@ -14,8 +14,11 @@ package game_logic;
  */
 public class Card
 {
-	int suit;
-	int value;
+	int suit; //The suit of the card
+	int value; //The value of the card
+	boolean revealed; //Whether or not the card is visible to the user
+	int x; //The X position of the card on the screen
+	int y; //The Y position of the card on the screen
 	
 	public Card(int suit, int value)
 	{
