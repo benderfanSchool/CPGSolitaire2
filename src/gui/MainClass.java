@@ -31,7 +31,6 @@ public class MainClass implements MouseListener
 	
 	private static GraphicsConsole gc = new GraphicsConsole(true, screenSize.width, screenSize.height);
 	
-<<<<<<< HEAD
 	private static boolean DRAGGING = false;
 	private static int previousX = 100;
 	private static int previousY = 100;
@@ -41,29 +40,21 @@ public class MainClass implements MouseListener
 	private static final Rectangle STACK = new Rectangle(100, 100, 100, 100);
 	
 	private MainClass()//Constructor
-=======
-	private MainClass()//Constructor
 	{
 		gc.addMouseListener(this);
 		gc.setAntiAlias(true);
 	}
 	
 	public static void main(String[] args)//main
->>>>>>> master
 	{
 		Font defaultFont = new Font("Monospaced", Font.BOLD, BUTTONFONTSIZE);
-		gc.addMouseListener(this);
-		gc.setAntiAlias(true);
+		
+		new MainClass();
 		
 		while(true)
 		{
-<<<<<<< HEAD
 			switch(screenState){ //Initial screen    Play or exit Menu
 			case 0:
-=======
-			if(screenState == 0) //Initial screen    Play or exit Menu
-			{
->>>>>>> master
 				//Draw buttons
 				gc.setColor(Color.CYAN);
 				gc.fillRect(PLAYBUTTON.x, PLAYBUTTON.y, PLAYBUTTON.width, PLAYBUTTON.height);
@@ -75,28 +66,18 @@ public class MainClass implements MouseListener
 				gc.drawString("Exit", EXITBUTTON.x+BUTTONFONTSIZE, EXITBUTTON.y+(BUTTONFONTSIZE*2));
 				System.out.println("Drawn");
 				
-				while(screenState == 0)
-				{
-					//delay
-					gc.sleep(1);
-				}
-<<<<<<< HEAD
+//				while(screenState == 0)
+//				{
+//					//delay
+//					gc.sleep(1);
+//				}
 //				
 //				//clear screen
 //				gc.clear();
-				//gc.sleep(REFRESHTIME);
+				gc.sleep(REFRESHTIME);
 				break;
 			
 			case 1: //Game modes screen Klondike and back
-=======
-				
-				//clear screen
-				gc.clear();
-			}
-			
-			if(screenState == 1) //Game modes screen    Klondike and back
-			{
->>>>>>> master
 				gc.setColor(Color.BLUE);
 				gc.fillRect(KLONDIKEBUTTON.x, KLONDIKEBUTTON.y, KLONDIKEBUTTON.width, KLONDIKEBUTTON.height);
 				gc.setColor(Color.BLACK);
@@ -108,13 +89,13 @@ public class MainClass implements MouseListener
 				gc.setColor(Color.BLACK);
 				gc.drawString("Back", BACKBUTTON.x+BUTTONFONTSIZE, BACKBUTTON.y+(BUTTONFONTSIZE*2));
 				
-				while(screenState == 1)
-				{
-					gc.sleep(1);
-				}
+//				while(screenState == 1)
+//				{
+//					gc.sleep(1);
+//				}
 //				
 //				gc.clear();
-				//gc.sleep(REFRESHTIME);
+				gc.sleep(REFRESHTIME);
 				break;
 			
 			case 2: //Game Screen
@@ -128,67 +109,26 @@ public class MainClass implements MouseListener
 				
 				gc.fillRect(STACK.x, STACK.y, STACK.width, STACK.height);
 				
-				gc.setColor(Color.GREEN);
-				gc.fillRect(DECK.x, DECK.y, DECK.width, DECK.height);
-				
-//				if(DRAGGING){ //if something is being dragged
-//					gc.drawString("DRAG", 200, 200);
-//					
-//					//
-//					DECK.x = MouseInfo.getPointerInfo().getLocation().x;
-//					DECK.y = MouseInfo.getPointerInfo().getLocation().y;
-//				}
-				
-				//while(screenState == 2)
-				//{
-					if(DRAGGING){ //if something is being dragged
-						gc.setColor(Color.BLACK);
-						gc.drawString("DRAG", 200, 200);
-						
-						//
-						DECK.x = MouseInfo.getPointerInfo().getLocation().x;
-						DECK.y = MouseInfo.getPointerInfo().getLocation().y;
-					}
-					gc.sleep(REFRESHTIME);
-				//}
-//				
-//				gc.clear();
-				//gc.sleep(REFRESHTIME);
-				break;
-			}
-<<<<<<< HEAD
-			
-			gc.sleep(REFRESHTIME);
-			gc.clear();
-=======
-			if(screenState == 2)
-			{
-				gc.setColor(Color.GREEN);
-				gc.fillRect(DECK.x, DECK.y, DECK.width, DECK.height);
-				
-				gc.setColor(Color.RED);
-				gc.fillRect(BACKBUTTON.x, BACKBUTTON.y, BACKBUTTON.width, BACKBUTTON.height);
-				gc.setColor(Color.BLACK);
-				gc.drawString("Back", BACKBUTTON.x+BUTTONFONTSIZE, BACKBUTTON.y+(BUTTONFONTSIZE*2));
-				
-				while(screenState == 2)
-				{
-					gc.sleep(1);
+				if(DRAGGING){ //if something is being dragged
+					gc.drawString("DRAG", 200, 200);
+					
+					//
+					DECK.x = MouseInfo.getPointerInfo().getLocation().x;
+					DECK.y = MouseInfo.getPointerInfo().getLocation().y;
 				}
 				
-				gc.clear();
+//				while(screenState == 2)
+//				{
+//					gc.sleep(1);
+//				}
+//				
+//				gc.clear();
+				gc.sleep(REFRESHTIME);
+				break;
 			}
->>>>>>> master
+			
+			gc.clear();
 		}
-	}
-	
-	public static void main(String[] args)//main
-	{
-		Font defaultFont = new Font("Monospaced", Font.BOLD, BUTTONFONTSIZE);
-		
-		new MainClass();
-		
-		
 	}
 
 	@Override
@@ -226,25 +166,22 @@ public class MainClass implements MouseListener
 			}
 			
 		}
-<<<<<<< HEAD
 		
-		gc.sleep(REFRESHTIME);
-=======
->>>>>>> master
+		//gc.sleep(REFRESHTIME);
 	}
 
 	
 	@Override
 	public void mouseEntered(MouseEvent arg0) {
 		// TODO Auto-generated method stub
-		gc.sleep(REFRESHTIME);
+		//gc.sleep(REFRESHTIME);
 		
 	}
 
 	@Override
 	public void mouseExited(MouseEvent arg0) {
 		// TODO Auto-generated method stub
-		gc.sleep(REFRESHTIME);
+		//gc.sleep(REFRESHTIME);
 	}
 
 	@Override
@@ -253,21 +190,14 @@ public class MainClass implements MouseListener
 		{
 			if(DECK.contains(e.getPoint())){
 				
-<<<<<<< HEAD
 				DRAGGING = true;
 				
 				previousX = DECK.x;
 				previousY = DECK.y;
-=======
-				gc.drawString("DRAG", 250, 250);
-				
-				DECK.x = e.getX();
-				DECK.y = e.getY();
->>>>>>> master
 			}
 		}
 		
-		gc.sleep(REFRESHTIME);
+		//gc.sleep(REFRESHTIME);
 	}
 
 	@Override
@@ -286,7 +216,7 @@ public class MainClass implements MouseListener
 				DECK.y = previousY;
 			}
 		}
-		gc.sleep(REFRESHTIME);
+		//gc.sleep(REFRESHTIME);
 	}
 	
 }
