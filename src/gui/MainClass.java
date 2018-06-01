@@ -31,6 +31,7 @@ public class MainClass implements MouseListener
 	
 	private static GraphicsConsole gc = new GraphicsConsole(true, screenSize.width, screenSize.height);
 	
+<<<<<<< HEAD
 	private static boolean DRAGGING = false;
 	private static int previousX = 100;
 	private static int previousY = 100;
@@ -40,6 +41,15 @@ public class MainClass implements MouseListener
 	private static final Rectangle STACK = new Rectangle(100, 100, 100, 100);
 	
 	private MainClass()//Constructor
+=======
+	private MainClass()//Constructor
+	{
+		gc.addMouseListener(this);
+		gc.setAntiAlias(true);
+	}
+	
+	public static void main(String[] args)//main
+>>>>>>> master
 	{
 		Font defaultFont = new Font("Monospaced", Font.BOLD, BUTTONFONTSIZE);
 		gc.addMouseListener(this);
@@ -47,8 +57,13 @@ public class MainClass implements MouseListener
 		
 		while(true)
 		{
+<<<<<<< HEAD
 			switch(screenState){ //Initial screen    Play or exit Menu
 			case 0:
+=======
+			if(screenState == 0) //Initial screen    Play or exit Menu
+			{
+>>>>>>> master
 				//Draw buttons
 				gc.setColor(Color.CYAN);
 				gc.fillRect(PLAYBUTTON.x, PLAYBUTTON.y, PLAYBUTTON.width, PLAYBUTTON.height);
@@ -65,6 +80,7 @@ public class MainClass implements MouseListener
 					//delay
 					gc.sleep(1);
 				}
+<<<<<<< HEAD
 //				
 //				//clear screen
 //				gc.clear();
@@ -72,6 +88,15 @@ public class MainClass implements MouseListener
 				break;
 			
 			case 1: //Game modes screen Klondike and back
+=======
+				
+				//clear screen
+				gc.clear();
+			}
+			
+			if(screenState == 1) //Game modes screen    Klondike and back
+			{
+>>>>>>> master
 				gc.setColor(Color.BLUE);
 				gc.fillRect(KLONDIKEBUTTON.x, KLONDIKEBUTTON.y, KLONDIKEBUTTON.width, KLONDIKEBUTTON.height);
 				gc.setColor(Color.BLACK);
@@ -131,9 +156,29 @@ public class MainClass implements MouseListener
 				//gc.sleep(REFRESHTIME);
 				break;
 			}
+<<<<<<< HEAD
 			
 			gc.sleep(REFRESHTIME);
 			gc.clear();
+=======
+			if(screenState == 2)
+			{
+				gc.setColor(Color.GREEN);
+				gc.fillRect(DECK.x, DECK.y, DECK.width, DECK.height);
+				
+				gc.setColor(Color.RED);
+				gc.fillRect(BACKBUTTON.x, BACKBUTTON.y, BACKBUTTON.width, BACKBUTTON.height);
+				gc.setColor(Color.BLACK);
+				gc.drawString("Back", BACKBUTTON.x+BUTTONFONTSIZE, BACKBUTTON.y+(BUTTONFONTSIZE*2));
+				
+				while(screenState == 2)
+				{
+					gc.sleep(1);
+				}
+				
+				gc.clear();
+			}
+>>>>>>> master
 		}
 	}
 	
@@ -181,8 +226,11 @@ public class MainClass implements MouseListener
 			}
 			
 		}
+<<<<<<< HEAD
 		
 		gc.sleep(REFRESHTIME);
+=======
+>>>>>>> master
 	}
 
 	
@@ -205,10 +253,17 @@ public class MainClass implements MouseListener
 		{
 			if(DECK.contains(e.getPoint())){
 				
+<<<<<<< HEAD
 				DRAGGING = true;
 				
 				previousX = DECK.x;
 				previousY = DECK.y;
+=======
+				gc.drawString("DRAG", 250, 250);
+				
+				DECK.x = e.getX();
+				DECK.y = e.getY();
+>>>>>>> master
 			}
 		}
 		
