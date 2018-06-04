@@ -23,10 +23,13 @@ public class MainClass implements MouseListener
 	private static int screenState = 0;
 	private static Dimension screenSize = Toolkit.getDefaultToolkit().getScreenSize();
 	
-	private static final Rectangle PLAYBUTTON = new Rectangle((screenSize.width/2) - 250, (screenSize.height/3) - 175, 500, 250); //Centered Play Button
-	private static final Rectangle EXITBUTTON = new Rectangle((screenSize.width/2) - 250, (2*screenSize.height/3) - 175, 500, 250); //Centered Exit button
+	private static final Rectangle PLAYBUTTON = new Rectangle((screenSize.width/2) - 250, (screenSize.height/4) - 87, 500, 250); //Centered Play Button
+	private static final Rectangle EXITBUTTON = new Rectangle((screenSize.width/2) - 250, (2*screenSize.height/4) - 87, 500, 250); //Centered Exit button
 	private static final Rectangle KLONDIKEBUTTON = new Rectangle(0, 0, 500, 250); //Top left corner Klondike Button
 	private static final Rectangle BACKBUTTON = new Rectangle(0, (int)screenSize.getHeight()-250, 500, 250); //Bottom right corner back button
+	private static final Rectangle SIGNINBUTTON = new Rectangle((screenSize.width/2) - 250, (3*screenSize.height/4) - 87, 500, 250); //Centered Sign In button
+	private static final Rectangle SIGNINCONFIRMBUTTON = new Rectangle(0, 0, 0, 0);
+	private static final Rectangle SIGNUPBUTTON = new Rectangle(0, 0, 0, 0);
 	private static Rectangle DECK = new Rectangle(screenSize.width - (PLAYINGCARDWIDTH + 10), screenSize.height - (PLAYINGCARDHEIGHT + 10), PLAYINGCARDWIDTH, PLAYINGCARDHEIGHT);
 	
 	private static GraphicsConsole gc = new GraphicsConsole(true, screenSize.width, screenSize.height);
@@ -60,10 +63,13 @@ public class MainClass implements MouseListener
 				gc.fillRect(PLAYBUTTON.x, PLAYBUTTON.y, PLAYBUTTON.width, PLAYBUTTON.height);
 				gc.setColor(Color.RED);
 				gc.fillRect(EXITBUTTON.x, EXITBUTTON.y, EXITBUTTON.width, EXITBUTTON.height);
+				gc.setColor(Color.MAGENTA);
+				gc.fillRect(SIGNINBUTTON.x, SIGNINBUTTON.y, SIGNINBUTTON.width, SIGNINBUTTON.height);
 				gc.setColor(Color.BLACK);
 				gc.setFont(defaultFont);
 				gc.drawString("Play", PLAYBUTTON.x+BUTTONFONTSIZE, PLAYBUTTON.y+(BUTTONFONTSIZE*2));
 				gc.drawString("Exit", EXITBUTTON.x+BUTTONFONTSIZE, EXITBUTTON.y+(BUTTONFONTSIZE*2));
+				gc.drawString("Sign In", SIGNINBUTTON.x+BUTTONFONTSIZE, SIGNINBUTTON.y+(BUTTONFONTSIZE*2));
 				System.out.println("Drawn");
 				
 //				while(screenState == 0)

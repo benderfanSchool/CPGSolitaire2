@@ -13,6 +13,11 @@ public class Leaderboard
 	private String USERURL = "jdbc:mysql://192.168.1.113:3306/Test?serverTimezone=America/Toronto";
 	boolean isSignedIn = false;
 	
+	/**
+	 * public Leaderboard()
+	 * <p>
+	 * The constuctor for the Leaderboard object, which registers the JDBC driver
+	 */
 	public Leaderboard()
 	{
 		try 
@@ -24,13 +29,25 @@ public class Leaderboard
 			e.printStackTrace();
 		}
 	}
-	
+	/**
+	 * public void signUp(String username, String password) throws AlreadyExistsException, SQLException
+	 * <p>
+	 * Creates an account for the user on the database.
+	 * <p>
+	 * @param username The user's chosen username
+	 * @param password The user's chosen password
+	 * @throws AlreadyExistsException This is thrown when the specified username has already been taken
+	 * @throws SQLException This is thrown when any sort of error occurs while accessing the database
+	 */
 	public void signUp(String username, String password) throws AlreadyExistsException, SQLException
 	{
 		String sql = "create user '" + username + "'@'" + USERURL + "' identified by '" + password + "';";
 		ResultSet rs;
 		
-		connection = DriverManager.getConnection("alex", "A!ex1999", USERURL);
+		if(connection.isClosed() || connection == null)
+		{
+			connection = DriverManager.getConnection(USERURL, "alex", "A!ex1999");
+		}
 		statement = connection.createStatement();
 			
 		rs = statement.executeQuery("select User from mysql.user;");
@@ -52,20 +69,59 @@ public class Leaderboard
 		rs.close();
 	}
 	
+	/**
+	 * public void signIn(String username, String password) throws SQLException
+	 * <p>
+	 * Connects to the database using the specified username and password
+	 * <p>
+	 * @param username
+	 * @param password
+	 * @throws SQLException
+	 */
 	public void signIn(String username, String password) throws SQLException
 	{
 		this.username = username;
 		this.password = password;
 		
-		if(connection.isClosed() || connection == null)
+		if(!connection.isClosed() && connection != null)
 		{
-			connection = DriverManager.getConnection(URL, username, password);
+			connection.close();
+		}
+		
+		connection = DriverManager.getConnection(URL, username, password);
+	}
+	
+	/**
+	 * public void signOut() throws SQLException
+	 * <p>
+	 * Disconnects from the database
+	 * <p>
+	 * @throws SQLException
+	 */
+	public void signOut() throws SQLException
+	{
+		if(connection != null)
+		{
+			statement.close();
+			connection.close();
+			connection = null;
 		}
 	}
 	
+	/**
+	 * public void updateLeaderboard(long score) throws NotSignedInException, SQLException
+	 * <p>
+	 * Either updates the user's score in the database, or inserts their score into the database
+	 * <p>
+	 * WARNING: SQL HAS NOT YET BEEN TESTED, IMPLEMENT AT OWN RISK
+	 * <p>
+	 * @param score
+	 * @throws NotSignedInException
+	 * @throws SQLException
+	 */
 	public void updateLeaderboard(long score) throws NotSignedInException, SQLException
 	{
-		String sql = "";
+		String sql = "if(select username from scores where username like '" + username + "', update scores set score = " + score + " where username = '" + username + "', insert into scores (score, username) values (" + score + ", " + username +"))";
 		
 		if(connection == null || connection.isClosed())
 		{
@@ -73,10 +129,16 @@ public class Leaderboard
 		}
 		else
 		{
-			
+			statement = connection.createStatement();
+			statement.execute(sql);
 		}
 	}
 	
+	/**
+	 * 
+	 * @return
+	 * @throws SQLException
+	 */
 	public Score[] getTopScores() throws SQLException
 	{
 		ResultSet scoresSet;
@@ -92,11 +154,5 @@ public class Leaderboard
 		}
 		
 		return scores;
-	}
-	
-	public void close() throws SQLException
-	{
-			connection.close();
-			statement.close();
 	}
 }
