@@ -12,7 +12,6 @@ public class Klondike
 	public Klondike(GraphicsConsole gc)
 	{
 		init();
-		play(gc);
 	}
 	
 	private void init()
@@ -62,11 +61,6 @@ public class Klondike
 		foundations[1] = new CardStack();
 		foundations[2] = new CardStack();
 		foundations[3] = new CardStack();
-	}
-	
-	private void play(GraphicsConsole gc)
-	{
-		
 	}
 	
 	private int rand(int high, int low)
