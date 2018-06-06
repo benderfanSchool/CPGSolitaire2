@@ -96,7 +96,7 @@ public class Leaderboard
 	 * <p>
 	 * Disconnects from the database
 	 * <p>
-	 * @throws SQLException
+	 * @throws SQLException This is thrown if an error occurs while communicating with the database
 	 */
 	public void signOut() throws SQLException
 	{
@@ -113,7 +113,7 @@ public class Leaderboard
 	 * <p>
 	 * Either updates the user's score in the database, or inserts their score into the database
 	 * <p>
-	 * WARNING: SQL HAS NOT YET BEEN TESTED, IMPLEMENT AT OWN RISK
+	 * WARNING: SQL HAS NOT YET BEEN TESTED, IMPLEMENT BUT EXPECT ERRORS.
 	 * <p>
 	 * @param score
 	 * @throws NotSignedInException

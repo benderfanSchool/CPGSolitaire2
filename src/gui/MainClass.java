@@ -5,9 +5,13 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
+
+import game_logic.Klondike;
+
 import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.Font;
+import java.awt.Image;
 import java.awt.MouseInfo;
 import java.awt.Rectangle;
 
@@ -15,10 +19,11 @@ import hsa2.*;
 
 public class MainClass implements MouseListener
 {
-	private static final int PLAYINGCARDHEIGHT = 25;
-	private static final int PLAYINGCARDWIDTH = 35;
+	private static final int PLAYINGCARDHEIGHT = 105;
+	private static final int PLAYINGCARDWIDTH = 75;
 	
 	private static final int BUTTONFONTSIZE = 70;
+	private static final int SMALLBUTTONFONTSIZE = 20;
 	
 	private static int screenState = 0;
 	private static Dimension screenSize = Toolkit.getDefaultToolkit().getScreenSize();
@@ -26,10 +31,16 @@ public class MainClass implements MouseListener
 	private static final Rectangle PLAYBUTTON = new Rectangle((screenSize.width/2) - 250, (screenSize.height/4) - 87, 500, 250); //Centered Play Button
 	private static final Rectangle EXITBUTTON = new Rectangle((screenSize.width/2) - 250, (2*screenSize.height/4) - 87, 500, 250); //Centered Exit button
 	private static final Rectangle KLONDIKEBUTTON = new Rectangle(0, 0, 500, 250); //Top left corner Klondike Button
-	private static final Rectangle BACKBUTTON = new Rectangle(0, (int)screenSize.getHeight()-250, 500, 250); //Bottom right corner back button
+	private static final Rectangle BACKBUTTON = new Rectangle(0, (int)screenSize.getHeight()-80, 160, 80); //Bottom right corner back button
 	private static final Rectangle SIGNINBUTTON = new Rectangle((screenSize.width/2) - 250, (3*screenSize.height/4) - 87, 500, 250); //Centered Sign In button
+	private static final Rectangle DRAWBUTTON = new Rectangle(screenSize.width - 160, 0, 160, 80);
 	private static final Rectangle SIGNINCONFIRMBUTTON = new Rectangle(0, 0, 0, 0);
 	private static final Rectangle SIGNUPBUTTON = new Rectangle(0, 0, 0, 0);
+	private static final Image CARDBACK = Toolkit.getDefaultToolkit().createImage("resources\\PixelRed\\cardback.png");
+	private static Image[] HEART = new Image[13];
+	private static Image[] SPADE = new Image[13];
+	private static Image[] DIAMOND = new Image[13];
+	private static Image[] CLUB = new Image[13];
 	private static Rectangle DECK = new Rectangle(screenSize.width - (PLAYINGCARDWIDTH + 10), screenSize.height - (PLAYINGCARDHEIGHT + 10), PLAYINGCARDWIDTH, PLAYINGCARDHEIGHT);
 	
 	private static GraphicsConsole gc = new GraphicsConsole(true, screenSize.width, screenSize.height);
@@ -40,17 +51,21 @@ public class MainClass implements MouseListener
 	
 	private static final int REFRESHTIME = 10;
 	
-	private static final Rectangle STACK = new Rectangle(100, 100, 100, 100);
+	private static final Rectangle STACK = new Rectangle(screenSize.width - 100, 0, 100, 100);
+	private static final Rectangle[] STACKS = new Rectangle[7];
 	
 	private MainClass()//Constructor
 	{
 		gc.addMouseListener(this);
 		gc.setAntiAlias(true);
+		HEART[0] = Toolkit.getDefaultToolkit().createImage("resources\\PixelRed\\1 " + (1) + ".png");
 	}
 	
 	public static void main(String[] args)//main
 	{
 		Font defaultFont = new Font("Monospaced", Font.BOLD, BUTTONFONTSIZE);
+		Font smallFont = new Font("Monospaced", Font.BOLD, SMALLBUTTONFONTSIZE);
+		Klondike game = new Klondike();
 		
 		new MainClass();
 		
@@ -92,8 +107,9 @@ public class MainClass implements MouseListener
 				
 				gc.setColor(Color.RED);
 				gc.fillRect(BACKBUTTON.x, BACKBUTTON.y, BACKBUTTON.width, BACKBUTTON.height);
+				gc.setFont(smallFont);
 				gc.setColor(Color.BLACK);
-				gc.drawString("Back", BACKBUTTON.x+BUTTONFONTSIZE, BACKBUTTON.y+(BUTTONFONTSIZE*2));
+				gc.drawString("Back", BACKBUTTON.x+SMALLBUTTONFONTSIZE, BACKBUTTON.y+(SMALLBUTTONFONTSIZE*2));
 				
 //				while(screenState == 1)
 //				{
@@ -105,8 +121,9 @@ public class MainClass implements MouseListener
 				break;
 			
 			case 2: //Game Screen
-				gc.setColor(Color.GREEN);
-				gc.fillRect(DECK.x, DECK.y, DECK.width, DECK.height);
+			//	gc.setColor(Color.GREEN);
+			//	gc.fillRect(DECK.x, DECK.y, DECK.width, DECK.height);
+				gc.drawImage(CARDBACK, DECK.x, DECK.y, DECK.width, DECK.height);
 				
 				gc.setColor(Color.RED);
 				gc.fillRect(BACKBUTTON.x, BACKBUTTON.y, BACKBUTTON.width, BACKBUTTON.height);
