@@ -16,10 +16,12 @@ public class Card
 {
 	int suit;
 	int value;
+	boolean revealed;
 	
 	public Card(int suit, int value)
 	{
 		this.suit = suit;
 		this.value = value;
+		this.revealed = false;
 	}
 }
