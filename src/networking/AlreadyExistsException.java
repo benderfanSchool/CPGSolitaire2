@@ -14,4 +14,10 @@ public class AlreadyExistsException extends Exception
 	{
 		return "The given username is already taken.";
 	}
+	
+	@Override
+	public String toString()
+	{
+		return "The given username is already taken.";
+	}
 }

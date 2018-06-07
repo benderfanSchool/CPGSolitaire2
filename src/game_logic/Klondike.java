@@ -9,7 +9,8 @@ public class Klondike
 	private CardStack deck = new CardStack();
 	private CardStack[] tableau = new CardStack[7]; //The cards in play
 	private CardStack[] foundations = new CardStack[4]; //The foundations, ordered from left to right
-	private CardStack talon = new CardStack(); //The cards in play that aren't on the tableau and aren't in the foundations
+	public CardStack talon = new CardStack(); //The cards in play that aren't on the tableau and aren't in the foundations
+	private CardStack hand = new CardStack();
 	
 	public Klondike()
 	{
@@ -76,6 +77,15 @@ public class Klondike
 		foundations[1] = new CardStack();
 		foundations[2] = new CardStack();
 		foundations[3] = new CardStack();
+	}
+	
+	public void draw()
+	{
+		Card tmp = deck.pop();
+		
+		tmp.revealed = true;
+		
+		talon.push(tmp);
 	}
 	
 	private int rand(int high, int low)
