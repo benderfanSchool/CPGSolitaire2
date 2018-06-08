@@ -1,5 +1,7 @@
 package networking;
 
+import java.net.InetAddress;
+import java.net.UnknownHostException;
 import java.sql.*;
 
 public class Leaderboard 
@@ -38,22 +40,25 @@ public class Leaderboard
 	 * @param password The user's chosen password
 	 * @throws AlreadyExistsException This is thrown when the specified username has already been taken
 	 * @throws SQLException This is thrown when any sort of error occurs while accessing the database
+	 * @throws UnknownHostException This is thrown when the IP address of the local host cannot be determined
 	 */
-	public void signUp(String username, String password) throws AlreadyExistsException, SQLException
+	public void signUp(String username, String password) throws AlreadyExistsException, SQLException, UnknownHostException
 	{
-		String sql = "create user '" + username + "'@'" + USERURL + "' identified by '" + password + "';";
+		String sqlStatementOne = "create user '" + username + "'@'" + InetAddress.getLocalHost() + "' identified by '" + password + "';";
+		String sqlStatementTwo = "grant select,insert,update on scores_database.scores to '" + username + "'@'" + USERURL + "';";
 		ResultSet rs;
 		
-		if(connection.isClosed() || connection == null)
+		if(connection == null)
 		{
 			connection = DriverManager.getConnection(USERURL, "alex", "A!ex1999");
 		}
+		
 		statement = connection.createStatement();
-			
+		
 		rs = statement.executeQuery("select User from mysql.user;");
-			
+		
 		rs.next();
-			
+		
 		while(!rs.isAfterLast())
 		{
 			if(rs.getString("User").equals(username))
@@ -63,7 +68,9 @@ public class Leaderboard
 			rs.next();
 		}
 			
-		statement.executeUpdate(sql);
+		statement.addBatch(sqlStatementOne);
+		statement.addBatch(sqlStatementTwo);
+		statement.executeBatch();
 		connection.close();
 		statement.close();
 		rs.close();
@@ -121,7 +128,9 @@ public class Leaderboard
 	 */
 	public void updateLeaderboard(long score) throws NotSignedInException, SQLException
 	{
-		String sql = "if(select username from scores where username like '" + username + "', update scores set score = " + score + " where username = '" + username + "', insert into scores (score, username) values (" + score + ", " + username +"))";
+		String sql = "if(select username from scores where username like '" + username + "', update scores set score = " 
+				+ score + " where username = '" + username + "', insert into scores (score, username) values (" + score 
+				+ ", " + username +"))";
 		
 		if(connection == null || connection.isClosed())
 		{

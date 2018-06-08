@@ -64,6 +64,7 @@ public class MainClass implements MouseListener
 	private String skin = "PixelRed";
 	private static Klondike game = new Klondike();
 	private static Leaderboard leaderboard = new Leaderboard();
+	private static boolean signedIn = false;
 	
 	private MainClass()//Constructor
 	{
@@ -199,11 +200,32 @@ public class MainClass implements MouseListener
 			}
 			else if(SIGNINBUTTON.contains(e.getPoint()))
 			{
-				
+				if(signedIn)
+				{
+					
+				}
+				else
+				{
+					SignUpAndInDialog signInDialog = new SignUpAndInDialog("Sign In");
+					String[] userCredentials = signInDialog.getCredentials();
+					
+					try
+					{
+						leaderboard.signIn(userCredentials[0], userCredentials[1]);
+					}
+					catch(NullPointerException ex)
+					{
+						
+					}
+					catch(Exception ex)
+					{
+						System.out.println(ex.toString());
+					}
+				}
 			}
 			else if(SIGNUPBUTTON.contains(e.getPoint()))
 			{
-				SignUpDialog signUpDialog = new SignUpDialog();
+				SignUpAndInDialog signUpDialog = new SignUpAndInDialog("Sign Up");
 				String[] userCredentials = signUpDialog.getCredentials();
 				
 				try
