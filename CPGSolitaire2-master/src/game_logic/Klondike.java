@@ -1,33 +1,47 @@
 package game_logic;
 
+import java.io.RandomAccessFile;
+
 import hsa2.GraphicsConsole;
 
 public class Klondike
 {
-	private CardStack deck = new CardStack();
-	private CardStack[] tableau = new CardStack[7]; //The cards in play
-	private CardStack[] foundations = new CardStack[4]; //The foundations, ordered from left to right
-	private CardStack talon = new CardStack(); //The cards in play that aren't on the tableau and aren't in the foundations
+	public CardStack deck = new CardStack();
+	public CardStack[] tableau = new CardStack[7]; //The cards in play
+	public CardStack[] foundations = new CardStack[4]; //The foundations, ordered from left to right
+	public CardStack talon = new CardStack(); //The cards in play that aren't on the tableau and aren't in the foundations
+	public CardStack hand = new CardStack();
 	
-	public Klondike(GraphicsConsole gc)
+	public Klondike()
 	{
 		init();
-		play(gc);
 	}
 	
 	private void init()
 	{
 		Card[] newDeck = new Card[52];
 		Card tmp;
+		RandomAccessFile deckInput;
 		int swapOne;
 		int swapTwo;
 		
-		for(int i = 1; i <= 4; i++)
+		try
 		{
-			for(int j = 1; j <= 13; j++)
+			deckInput = new RandomAccessFile("resources\\deck\\deck.dat", "r");
+			
+			for(int i = 0; i < newDeck.length; i++)
 			{
-				newDeck[(i*j)-1] = new Card(i, j);
+				newDeck[i] = new Card(deckInput.readInt(), deckInput.readInt());
 			}
+		}
+		catch(Exception e)
+		{
+			e.printStackTrace();
+		}
+		
+		for(int i = 0; i < newDeck.length; i++)
+		{
+			System.out.println("Card: " + (i+1) + "\tSuit: " + newDeck[i].suit + "\tValue: " + newDeck[i].value);
 		}
 		
 		for(int i = 0; i < newDeck.length; i++)
@@ -50,13 +64,14 @@ public class Klondike
 			deck.push(newDeck[i]);
 		}
 		
-		tableau[0] = new CardStack();
-		tableau[1] = new CardStack();
-		tableau[2] = new CardStack();
-		tableau[3] = new CardStack();
-		tableau[4] = new CardStack();
-		tableau[5] = new CardStack();
-		tableau[6] = new CardStack();
+		for(int i = 1; i < tableau.length+1; i++)
+		{
+			tableau[i-1] = new CardStack();
+			for(int j = 0; j < i; j++)
+			{
+				tableau[i-1].push(deck.pop());
+			}
+		}
 		
 		foundations[0] = new CardStack();
 		foundations[1] = new CardStack();
@@ -64,9 +79,13 @@ public class Klondike
 		foundations[3] = new CardStack();
 	}
 	
-	private void play(GraphicsConsole gc)
+	public void draw()
 	{
+		Card tmp = deck.pop();
 		
+		tmp.revealed = true;
+		
+		talon.push(tmp);
 	}
 	
 	private int rand(int high, int low)
