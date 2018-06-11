@@ -61,7 +61,7 @@ public class MainClass implements MouseListener
 	
 	private static final int REFRESHTIME = 10;
 	
-	private static Rectangle DRAW = new Rectangle(screenSize.width - (2*PLAYINGCARDWIDTH + 20), 200, PLAYINGCARDWIDTH, PLAYINGCARDHEIGHT);
+	//private static Rectangle DRAW = new Rectangle(screenSize.width - (2*PLAYINGCARDWIDTH + 20), 200, PLAYINGCARDWIDTH, PLAYINGCARDHEIGHT);
 	
 	private static final Rectangle STACK = new Rectangle(screenSize.width - 100, 0, 100, 100);
 	private static Rectangle[] STACKS = new Rectangle[7];
@@ -74,6 +74,10 @@ public class MainClass implements MouseListener
 		gc.addMouseListener(this);
 		gc.setAntiAlias(true);
 		HEART[0] = Toolkit.getDefaultToolkit().createImage("resources\\" + skin + "\\1 " + (1) + ".png");
+	}
+	
+	private static String drawCard(Card card){
+		return card.suit + " " + card.value;
 	}
 	
 	public static void main(String[] args)//main
@@ -150,7 +154,7 @@ public class MainClass implements MouseListener
 				gc.drawImage(CARDBACK, DECK.x, DECK.y, DECK.width, DECK.height);
 				
 				//Draw current drawn card
-				gc.drawRect(DRAW.x, DRAW.y, DRAW.width, DRAW.height);
+				//gc.drawRect(DRAW.x, DRAW.y, DRAW.width, DRAW.height);
 				
 				//Draw back button
 				gc.setColor(Color.RED);
@@ -179,6 +183,7 @@ public class MainClass implements MouseListener
 						Vshift ++;
 						tmp = copyFoundation[i].pop();
 						gc.drawString(tmp.suit + " " + tmp.value, (i*100) + 200, 300 + 10*Vshift);
+						System.out.println("Foundation popped");
 					}
 				}
 				
@@ -196,17 +201,22 @@ public class MainClass implements MouseListener
 						Vshift ++;
 						tmp = copyTableau[i].pop();
 						gc.drawString(tmp.suit + " " + tmp.value, (i*100) + 200, 300 + 10*Vshift);
+						System.out.println("Tableau popped");
 					}
 				}
 				
 				//Draw Talon
-				if(game.talon.isEmpty()){
-					gc.setColor(Color.white);
-					gc.drawRect(800, 500, PLAYINGCARDWIDTH, PLAYINGCARDHEIGHT);
+				
+				//Draw Blank
+				gc.setColor(Color.white);
+				gc.drawRect(800, 500, PLAYINGCARDWIDTH, PLAYINGCARDHEIGHT);
+				
+				//Draw cards in talon
+				while(!copyTalon.isEmpty()){
+					gc.drawString(drawCard(copyTalon.pop()), 800, 500);
+					System.out.println("Talon popped");
 				}
-				else{
-					
-				}
+				
 				
 				if(DRAGGING){ //if something is being dragged
 					gc.drawString("DRAG", 200, 200);
