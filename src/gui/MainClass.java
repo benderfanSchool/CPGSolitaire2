@@ -1,33 +1,57 @@
 package gui;
 
-import java.awt.Toolkit;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
+
+import game_logic.Card;
+import game_logic.CardStack;
+import game_logic.Klondike;
+import networking.Leaderboard;
+
 import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.Font;
+import java.awt.Image;
 import java.awt.MouseInfo;
 import java.awt.Rectangle;
+import java.awt.Toolkit;
 
 import hsa2.*;
 
 public class MainClass implements MouseListener
 {
-	private static final int PLAYINGCARDHEIGHT = 25;
-	private static final int PLAYINGCARDWIDTH = 35;
+	
+	private static final int PLAYINGCARDHEIGHT = 105;
+	private static final int PLAYINGCARDWIDTH = 75;
 	
 	private static final int BUTTONFONTSIZE = 70;
+	private static final int SMALLBUTTONFONTSIZE = 30;
 	
 	private static int screenState = 0;
 	private static Dimension screenSize = Toolkit.getDefaultToolkit().getScreenSize();
 	
-	private static final Rectangle PLAYBUTTON = new Rectangle((screenSize.width/2) - 250, (screenSize.height/3) - 175, 500, 250); //Centered Play Button
-	private static final Rectangle EXITBUTTON = new Rectangle((screenSize.width/2) - 250, (2*screenSize.height/3) - 175, 500, 250); //Centered Exit button
-	private static final Rectangle KLONDIKEBUTTON = new Rectangle(0, 0, 500, 250); //Top left corner Klondike Button
-	private static final Rectangle BACKBUTTON = new Rectangle(0, (int)screenSize.getHeight()-250, 500, 250); //Bottom right corner back button
-	private static Rectangle DECK = new Rectangle(screenSize.width - (PLAYINGCARDWIDTH + 10), screenSize.height - (PLAYINGCARDHEIGHT + 10), PLAYINGCARDWIDTH, PLAYINGCARDHEIGHT);
+	private static final Rectangle PLAYBUTTON = new Rectangle((screenSize.width/2) - 125, 
+			(screenSize.height/4) - 87, 500, 125); //Centered Play Button
+	private static final Rectangle EXITBUTTON = new Rectangle((screenSize.width/2) - 125, 
+			(int)(1.5*screenSize.height/4) - 87, 500, 125); //Centered Exit button
+	private static final Rectangle KLONDIKEBUTTON = new Rectangle(0, 0, 500, 125); //Top left corner Klondike Button
+	private static final Rectangle BACKBUTTON = new Rectangle(0, (int)screenSize.getHeight()-80, 160, 80); //Bottom right corner back button
+	private static final Rectangle SIGNINBUTTON = new Rectangle((screenSize.width/2) - 125, 
+			(2*screenSize.height/4) - 87, 500, 125); //Centered Sign In button
+	private static final Rectangle DRAWBUTTON = new Rectangle(screenSize.width - 160, 
+			PLAYINGCARDHEIGHT + 10, 160, 80);
+	private static final Rectangle SIGNINCONFIRMBUTTON = new Rectangle(0, 0, 0, 0);
+	private static final Rectangle SIGNUPBUTTON = new Rectangle((screenSize.width/2) - 125, 
+			(int)(2.5*screenSize.height/4), 500, 125);
+	private static final Rectangle TALON = new Rectangle(0, 0, 0, 0);
+	private static final Image CARDBACK = Toolkit.getDefaultToolkit().createImage("resources\\PixelRed\\cardback.png");
+	private static Image[] HEART = new Image[13];
+	private static Image[] SPADE = new Image[13];
+	private static Image[] DIAMOND = new Image[13];
+	private static Image[] CLUB = new Image[13];
+	private static Rectangle DECK = new Rectangle(screenSize.width - (PLAYINGCARDWIDTH + 10), 200, PLAYINGCARDWIDTH, PLAYINGCARDHEIGHT);
 	
 	private static GraphicsConsole gc = new GraphicsConsole(true, screenSize.width, screenSize.height);
 	
@@ -37,13 +61,27 @@ public class MainClass implements MouseListener
 	
 	private static final int REFRESHTIME = 10;
 	
-	private static final Rectangle STACK = new Rectangle(100, 100, 100, 100);
+	private static Rectangle DRAW = new Rectangle(screenSize.width - (2*PLAYINGCARDWIDTH + 20), 200, PLAYINGCARDWIDTH, PLAYINGCARDHEIGHT);
+	
+	private static final Rectangle STACK = new Rectangle(screenSize.width - 100, 0, 100, 100);
+	private static Rectangle[] STACKS = new Rectangle[7];
+	private String skin = "PixelRed";
+	private static Klondike game = new Klondike();
+	private static Leaderboard leaderboard = new Leaderboard();
 	
 	private MainClass()//Constructor
 	{
-		Font defaultFont = new Font("Monospaced", Font.BOLD, BUTTONFONTSIZE);
 		gc.addMouseListener(this);
 		gc.setAntiAlias(true);
+		HEART[0] = Toolkit.getDefaultToolkit().createImage("resources\\" + skin + "\\1 " + (1) + ".png");
+	}
+	
+	public static void main(String[] args)//main
+	{
+		Font defaultFont = new Font("Monospaced", Font.BOLD, BUTTONFONTSIZE);
+		Font smallFont = new Font("Monospaced", Font.BOLD, SMALLBUTTONFONTSIZE);
+		
+		new MainClass();
 		
 		while(true)
 		{
@@ -54,21 +92,27 @@ public class MainClass implements MouseListener
 				gc.fillRect(PLAYBUTTON.x, PLAYBUTTON.y, PLAYBUTTON.width, PLAYBUTTON.height);
 				gc.setColor(Color.RED);
 				gc.fillRect(EXITBUTTON.x, EXITBUTTON.y, EXITBUTTON.width, EXITBUTTON.height);
+				gc.setColor(Color.MAGENTA);
+				gc.fillRect(SIGNINBUTTON.x, SIGNINBUTTON.y, SIGNINBUTTON.width, SIGNINBUTTON.height);
+				gc.setColor(Color.YELLOW);
+				gc.fillRect(SIGNUPBUTTON.x, SIGNUPBUTTON.y, SIGNUPBUTTON.width, SIGNUPBUTTON.height);
 				gc.setColor(Color.BLACK);
 				gc.setFont(defaultFont);
-				gc.drawString("Play", PLAYBUTTON.x+BUTTONFONTSIZE, PLAYBUTTON.y+(BUTTONFONTSIZE*2));
-				gc.drawString("Exit", EXITBUTTON.x+BUTTONFONTSIZE, EXITBUTTON.y+(BUTTONFONTSIZE*2));
-				System.out.println("Drawn");
+				gc.drawString("Play", PLAYBUTTON.x+BUTTONFONTSIZE, PLAYBUTTON.y+(BUTTONFONTSIZE));
+				gc.drawString("Exit", EXITBUTTON.x+BUTTONFONTSIZE, EXITBUTTON.y+(BUTTONFONTSIZE));
+				gc.drawString("Sign In", SIGNINBUTTON.x+BUTTONFONTSIZE, SIGNINBUTTON.y+(BUTTONFONTSIZE));
+				gc.drawString("Sign Up", SIGNUPBUTTON.x+BUTTONFONTSIZE, SIGNUPBUTTON.y+(BUTTONFONTSIZE));
+				//System.out.println("Drawn");
 				
-				while(screenState == 0)
-				{
-					//delay
-					gc.sleep(1);
-				}
+//				while(screenState == 0)
+//				{
+//					//delay
+//					gc.sleep(1);
+//				}
 //				
 //				//clear screen
 //				gc.clear();
-				//gc.sleep(REFRESHTIME);
+				gc.sleep(REFRESHTIME);
 				break;
 			
 			case 1: //Game modes screen Klondike and back
@@ -76,76 +120,116 @@ public class MainClass implements MouseListener
 				gc.fillRect(KLONDIKEBUTTON.x, KLONDIKEBUTTON.y, KLONDIKEBUTTON.width, KLONDIKEBUTTON.height);
 				gc.setColor(Color.BLACK);
 				gc.setFont(defaultFont);
-				gc.drawString("Klondike", KLONDIKEBUTTON.x+BUTTONFONTSIZE, KLONDIKEBUTTON.y+(BUTTONFONTSIZE*2));
+				gc.drawString("Klondike", KLONDIKEBUTTON.x+BUTTONFONTSIZE, KLONDIKEBUTTON.y+(BUTTONFONTSIZE));
 				
 				gc.setColor(Color.RED);
 				gc.fillRect(BACKBUTTON.x, BACKBUTTON.y, BACKBUTTON.width, BACKBUTTON.height);
+				gc.setFont(smallFont);
 				gc.setColor(Color.BLACK);
-				gc.drawString("Back", BACKBUTTON.x+BUTTONFONTSIZE, BACKBUTTON.y+(BUTTONFONTSIZE*2));
+				gc.drawString("Back", BACKBUTTON.x+SMALLBUTTONFONTSIZE, BACKBUTTON.y+(SMALLBUTTONFONTSIZE*2));
 				
-				while(screenState == 1)
-				{
-					gc.sleep(1);
-				}
+//				while(screenState == 1)
+//				{
+//					gc.sleep(1);
+//				}
 //				
 //				gc.clear();
-				//gc.sleep(REFRESHTIME);
+				gc.sleep(REFRESHTIME);
 				break;
 			
 			case 2: //Game Screen
-				gc.setColor(Color.GREEN);
-				gc.fillRect(DECK.x, DECK.y, DECK.width, DECK.height);
 				
+				CardStack copyTableau[] = game.tableau.clone(); //copy of the game tableau
+				CardStack copyFoundation[] = game.foundations.clone(); //copy of the game foundations
+				CardStack copyTalon = game.talon;//copy of the game talon
+				
+				//set background
+				gc.setBackgroundColor(Color.GREEN);
+				
+				//Draw deck
+				gc.drawImage(CARDBACK, DECK.x, DECK.y, DECK.width, DECK.height);
+				
+				//Draw current drawn card
+				gc.drawRect(DRAW.x, DRAW.y, DRAW.width, DRAW.height);
+				
+				//Draw back button
 				gc.setColor(Color.RED);
 				gc.fillRect(BACKBUTTON.x, BACKBUTTON.y, BACKBUTTON.width, BACKBUTTON.height);
 				gc.setColor(Color.BLACK);
-				gc.drawString("Back", BACKBUTTON.x+BUTTONFONTSIZE, BACKBUTTON.y+(BUTTONFONTSIZE*2));
+				gc.drawString("Back", BACKBUTTON.x+SMALLBUTTONFONTSIZE, BACKBUTTON.y+(SMALLBUTTONFONTSIZE*2));
 				
-				gc.fillRect(STACK.x, STACK.y, STACK.width, STACK.height);
+				//Draw draw button
+				gc.setColor(Color.ORANGE);
+				gc.fillRect(DRAWBUTTON.x, DRAWBUTTON.y, DRAWBUTTON.width, DRAWBUTTON.height);
+				gc.setColor(Color.BLACK);
+				gc.drawString("Draw", DRAWBUTTON.x+SMALLBUTTONFONTSIZE, DRAWBUTTON.y+SMALLBUTTONFONTSIZE);
 				
-				gc.setColor(Color.GREEN);
-				gc.fillRect(DECK.x, DECK.y, DECK.width, DECK.height);
 				
-//				if(DRAGGING){ //if something is being dragged
-//					gc.drawString("DRAG", 200, 200);
-//					
-//					//
-//					DECK.x = MouseInfo.getPointerInfo().getLocation().x;
-//					DECK.y = MouseInfo.getPointerInfo().getLocation().y;
-//				}
-				
-				//while(screenState == 2)
-				//{
-					if(DRAGGING){ //if something is being dragged
-						gc.setColor(Color.BLACK);
-						gc.drawString("DRAG", 200, 200);
-						
-						//
-						DECK.x = MouseInfo.getPointerInfo().getLocation().x;
-						DECK.y = MouseInfo.getPointerInfo().getLocation().y;
+				//Draw foundations
+				for(int i = 0; i<copyFoundation.length;i++){
+					
+					//Draws blank rectangle
+					gc.setColor(Color.white);
+					gc.drawRect((i*100) + 200, 100, PLAYINGCARDWIDTH, PLAYINGCARDHEIGHT);
+					int Vshift = 0;
+					Card tmp;
+					
+					//Draws cards the individual tableau
+					while(!copyFoundation[i].isEmpty()){
+						Vshift ++;
+						tmp = copyFoundation[i].pop();
+						gc.drawString(tmp.suit + " " + tmp.value, (i*100) + 200, 300 + 10*Vshift);
 					}
-					gc.sleep(REFRESHTIME);
-				//}
+				}
+				
+				//Draws all Tableaux
+				for(int i = 0; i<copyTableau.length;i++){
+					
+					//Draws blank rectangle
+					gc.setColor(Color.white);
+					gc.drawRect((i*100) + 200, 300, PLAYINGCARDWIDTH, PLAYINGCARDHEIGHT);
+					int Vshift = 0;
+					Card tmp;
+					
+					//Draws cards the individual tableau
+					while(!copyTableau[i].isEmpty()){
+						Vshift ++;
+						tmp = copyTableau[i].pop();
+						gc.drawString(tmp.suit + " " + tmp.value, (i*100) + 200, 300 + 10*Vshift);
+					}
+				}
+				
+				//Draw Talon
+				if(game.talon.isEmpty()){
+					gc.setColor(Color.white);
+					gc.drawRect(800, 500, PLAYINGCARDWIDTH, PLAYINGCARDHEIGHT);
+				}
+				else{
+					
+				}
+				
+				if(DRAGGING){ //if something is being dragged
+					gc.drawString("DRAG", 200, 200);
+					
+					//
+					DECK.x = MouseInfo.getPointerInfo().getLocation().x;
+					DECK.y = MouseInfo.getPointerInfo().getLocation().y;
+				}
+				
+//				while(screenState == 2)
+//				{
+//					gc.sleep(1);
+//				}
 //				
 //				gc.clear();
-				//gc.sleep(REFRESHTIME);
+				gc.sleep(REFRESHTIME);
 				break;
 			}
 			
-			gc.sleep(REFRESHTIME);
 			gc.clear();
 		}
 	}
 	
-	public static void main(String[] args)//main
-	{
-		Font defaultFont = new Font("Monospaced", Font.BOLD, BUTTONFONTSIZE);
-		
-		new MainClass();
-		
-		
-	}
-
 	@Override
 	public void mouseClicked(MouseEvent e) //clicking buttons
 	{
@@ -160,6 +244,28 @@ public class MainClass implements MouseListener
 			else if(EXITBUTTON.contains(e.getPoint()))
 			{
 				System.exit(0);
+			}
+			else if(SIGNINBUTTON.contains(e.getPoint()))
+			{
+				
+			}
+			else if(SIGNUPBUTTON.contains(e.getPoint()))
+			{
+				//SignUpDialog signUpDialog = new SignUpDialog();
+				//String[] userCredentials = signUpDialog.getCredentials();
+				
+				try
+				{
+					//leaderboard.signUp(userCredentials[0], userCredentials[1]);
+				}
+				catch(NullPointerException ex)
+				{
+					
+				}
+				catch(Exception ex)
+				{
+					System.out.println(ex.toString());
+				}
 			}
 		}
 		else if(screenState == 1) //Game Select
@@ -179,24 +285,27 @@ public class MainClass implements MouseListener
 			{
 				screenState = 1;
 			}
-			
+			else if(DRAWBUTTON.contains(e.getPoint()))
+			{
+				game.draw();
+			}
 		}
 		
-		gc.sleep(REFRESHTIME);
+		//gc.sleep(REFRESHTIME);
 	}
 
 	
 	@Override
 	public void mouseEntered(MouseEvent arg0) {
 		// TODO Auto-generated method stub
-		gc.sleep(REFRESHTIME);
+		//gc.sleep(REFRESHTIME);
 		
 	}
 
 	@Override
 	public void mouseExited(MouseEvent arg0) {
 		// TODO Auto-generated method stub
-		gc.sleep(REFRESHTIME);
+		//gc.sleep(REFRESHTIME);
 	}
 
 	@Override
@@ -212,7 +321,7 @@ public class MainClass implements MouseListener
 			}
 		}
 		
-		gc.sleep(REFRESHTIME);
+		//gc.sleep(REFRESHTIME);
 	}
 
 	@Override
@@ -231,7 +340,7 @@ public class MainClass implements MouseListener
 				DECK.y = previousY;
 			}
 		}
-		gc.sleep(REFRESHTIME);
+		//gc.sleep(REFRESHTIME);
 	}
 	
 }

@@ -42,11 +42,18 @@ public class CardStack
 	 * Pops the top card off the stack
 	 * <p>
 	 * @param node The node currently being worked on (when calling it, always call it using header)
-	 * @return The top card on the stack
+	 * @return The top card on the stack or null if the stack is empty.
 	 */
 	public Card pop()
 	{
-		return pop(header);
+		if(header != null)
+		{
+			return pop(header);
+		}
+		else
+		{
+			return null;
+		}
 	}
 	
 	private Card pop(Node node)
@@ -87,7 +94,7 @@ public class CardStack
 	 */
 	private void push(Card card, Node node, int stackPos)
 	{
-		if(node.link == null)
+		if(node == null)
 		{
 			node = new Node(card, stackPos);
 		}
