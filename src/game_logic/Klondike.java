@@ -6,11 +6,19 @@ import hsa2.GraphicsConsole;
 
 public class Klondike
 {
+<<<<<<< HEAD
 	private CardStack deck = new CardStack();
 	private CardStack[] tableau = new CardStack[7]; //The cards in play
 	private CardStack[] foundations = new CardStack[4]; //The foundations, ordered from left to right
 	public CardStack talon = new CardStack(); //The cards in play that aren't on the tableau and aren't in the foundations
 	private CardStack hand = new CardStack();
+=======
+	public CardStack deck = new CardStack();
+	public CardStack[] tableau = new CardStack[7]; //The cards in play
+	public CardStack[] foundations = new CardStack[4]; //The foundations, ordered from left to right
+	public CardStack talon = new CardStack(); //The cards in play that aren't on the tableau and aren't in the foundations
+	public CardStack hand = new CardStack();
+>>>>>>> pr/9
 	
 	public Klondike()
 	{

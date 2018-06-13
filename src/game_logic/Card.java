@@ -14,8 +14,13 @@ package game_logic;
  */
 public class Card
 {
+<<<<<<< HEAD
 	int suit;
 	int value;
+=======
+	public int suit;
+	public int value;
+>>>>>>> pr/9
 	boolean revealed;
 	
 	public Card(int suit, int value)
