@@ -144,7 +144,7 @@ public class Leaderboard
 		ResultSet scoresSet;
 		Score[] scores = new Score[10];
 		
-		scoresSet = statement.executeQuery("select * from scores;");
+		scoresSet = statement.executeQuery("select * from scores order by score;");
 		scoresSet.next();
 		
 		for(int i = 0; i < scores.length && !scoresSet.isAfterLast(); i++)
