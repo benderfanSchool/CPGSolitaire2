@@ -10,8 +10,9 @@ public class Klondike
 	private CardStack deck = new CardStack();
 	private CardStack[] tableau = new CardStack[7]; //The cards in play
 	private CardStack[] foundations = new CardStack[4]; //The foundations, ordered from left to right
-	public CardStack talon = new CardStack(); //The cards in play that aren't on the tableau and aren't in the foundations
+	private CardStack talon = new CardStack(); //The cards in play that aren't on the tableau and aren't in the foundations
 	private CardStack hand = new CardStack();
+<<<<<<< HEAD
 =======
 	public CardStack deck = new CardStack();
 	public CardStack[] tableau = new CardStack[7]; //The cards in play
@@ -19,6 +20,9 @@ public class Klondike
 	public CardStack talon = new CardStack(); //The cards in play that aren't on the tableau and aren't in the foundations
 	public CardStack hand = new CardStack();
 >>>>>>> pr/9
+=======
+	private long score;
+>>>>>>> 6cd63ac26c611a659daa180c8473df12c9fd94ec
 	
 	public Klondike()
 	{
@@ -32,6 +36,8 @@ public class Klondike
 		RandomAccessFile deckInput;
 		int swapOne;
 		int swapTwo;
+		
+		score = 0;
 		
 		try
 		{
@@ -99,5 +105,114 @@ public class Klondike
 	private int rand(int high, int low)
 	{
 		return (int)((Math.random()*(high-low))+low);
+	}
+	
+	public CardStack getFoundation(int index)
+	{
+		return foundations[index];
+	}
+	
+	public void setFoundation(int index, CardStack foundation)
+	{
+		foundations[index] = foundation;
+	}
+	
+	public CardStack[] getFoundations()
+	{
+		return foundations;
+	}
+	
+	public void setFoundations(CardStack[] newFoundations)
+	{
+		foundations = newFoundations;
+	}
+	
+	public CardStack getTableauColumn(int index)
+	{
+		return tableau[index];
+	}
+	
+	public void setTableauColumn(int index, CardStack tableauCol)
+	{
+		tableau[index] = tableauCol;
+	}
+	
+	public CardStack[] getTableau()
+	{
+		return tableau;
+	}
+	
+	public void setTableau(CardStack[] newTableau)
+	{
+		tableau = newTableau;
+	}
+	
+	public CardStack getDeck()
+	{
+		return deck;
+	}
+	
+	public void setDeck(CardStack newDeck)
+	{
+		deck = newDeck;
+	}
+	
+	public CardStack getTalon()
+	{
+		return talon;
+	}
+	
+	public void setTalon(CardStack newTalon)
+	{
+		talon = newTalon;
+	}
+	
+	public CardStack getHand()
+	{
+		return hand;
+	}
+	
+	public void setHand(CardStack newHand)
+	{
+		hand = newHand;
+	}
+	
+	public long getScore()
+	{
+		return score;
+	}
+	
+	public void setScore(long newScore)
+	{
+		score = newScore;
+	}
+	
+	public boolean hasWon()
+	{
+		boolean won = false;
+		CardStack tmp = new CardStack();
+		
+		for(int i = 0; i < foundations.length; i++)
+		{
+			for(int j = 13; j >= 1; j--)
+			{
+				if(foundations[i].peek().value == j)
+				{
+					won = true;
+				}
+				else
+				{
+					return false;
+				}
+				tmp.push(foundations[i].pop());
+			}
+			
+			for(int j = 0; j < 13; j++)
+			{
+				foundations[i].push(tmp.pop());
+			}
+		}
+		
+		return won;
 	}
 }

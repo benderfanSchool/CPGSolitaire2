@@ -7,9 +7,13 @@ import java.awt.event.MouseListener;
 
 import game_logic.Card;
 <<<<<<< HEAD
+<<<<<<< HEAD
 =======
 import game_logic.CardStack;
 >>>>>>> pr/9
+=======
+import game_logic.CardStack;
+>>>>>>> 6cd63ac26c611a659daa180c8473df12c9fd94ec
 import game_logic.Klondike;
 import networking.Leaderboard;
 
@@ -26,11 +30,17 @@ import hsa2.*;
 public class MainClass implements MouseListener
 {
 <<<<<<< HEAD
+<<<<<<< HEAD
 =======
 	
 	//    SIZES OF THINGS
 	
 >>>>>>> pr/9
+=======
+	
+	//    SIZES OF THINGS
+	
+>>>>>>> 6cd63ac26c611a659daa180c8473df12c9fd94ec
 	private static final int PLAYINGCARDHEIGHT = 105;
 	private static final int PLAYINGCARDWIDTH = 75;
 	
@@ -40,6 +50,11 @@ public class MainClass implements MouseListener
 	private static Dimension screenSize = Toolkit.getDefaultToolkit().getScreenSize();
 	
 <<<<<<< HEAD
+<<<<<<< HEAD
+=======
+	//	  BUTTONS
+	
+>>>>>>> 6cd63ac26c611a659daa180c8473df12c9fd94ec
 	private static final Rectangle PLAYBUTTON = new Rectangle((screenSize.width/2) - 125, 
 			(screenSize.height/4) - 87, 500, 125); //Centered Play Button
 	private static final Rectangle EXITBUTTON = new Rectangle((screenSize.width/2) - 125, 
@@ -53,12 +68,15 @@ public class MainClass implements MouseListener
 	private static final Rectangle SIGNINCONFIRMBUTTON = new Rectangle(0, 0, 0, 0);
 	private static final Rectangle SIGNUPBUTTON = new Rectangle((screenSize.width/2) - 125, 
 			(int)(2.5*screenSize.height/4), 500, 125);
-	private static final Rectangle TALON = new Rectangle(0, 0, 0, 0);
-	private static final Image CARDBACK = Toolkit.getDefaultToolkit().createImage("resources\\PixelRed\\cardback.png");
+	
+	//      IMAGES
+	
+	private static Image CARDBACK;
 	private static Image[] HEART = new Image[13];
 	private static Image[] SPADE = new Image[13];
 	private static Image[] DIAMOND = new Image[13];
 	private static Image[] CLUB = new Image[13];
+<<<<<<< HEAD
 	private static Rectangle DECK = new Rectangle(screenSize.width - (PLAYINGCARDWIDTH + 10), 0, PLAYINGCARDWIDTH, PLAYINGCARDHEIGHT);
 =======
 	//	  BUTTONS
@@ -97,6 +115,20 @@ public class MainClass implements MouseListener
 	private static final Rectangle FOUNDATION3 = new Rectangle(screenSize.width - 100, 0, 100, 100);
 	private static final Rectangle FOUNDATION4 = new Rectangle(screenSize.width - 100, 0, 100, 100);
 	
+=======
+	
+	//      ENTITIES
+	
+	private static final Rectangle TALON = new Rectangle(0, 0, 0, 0);
+	
+	private static Rectangle DECK = new Rectangle(screenSize.width - (PLAYINGCARDWIDTH + 10), 200, PLAYINGCARDWIDTH, PLAYINGCARDHEIGHT);
+	
+	private static final Rectangle FOUNDATION1 = new Rectangle(screenSize.width - 100, 0, 100, 100);
+	private static final Rectangle FOUNDATION2 = new Rectangle(screenSize.width - 100, 0, 100, 100);
+	private static final Rectangle FOUNDATION3 = new Rectangle(screenSize.width - 100, 0, 100, 100);
+	private static final Rectangle FOUNDATION4 = new Rectangle(screenSize.width - 100, 0, 100, 100);
+	
+>>>>>>> 6cd63ac26c611a659daa180c8473df12c9fd94ec
 	//      UTILITIES
 	
 	private static GraphicsConsole gc = new GraphicsConsole(true, screenSize.width, screenSize.height);
@@ -106,9 +138,12 @@ public class MainClass implements MouseListener
 	private static int previousY = 100;
 	private static final int REFRESHTIME = 10;
 <<<<<<< HEAD
+<<<<<<< HEAD
 	
 	private static final Rectangle STACK = new Rectangle(screenSize.width - 100, 0, 100, 100);
 	private static Rectangle[] STACKS = new Rectangle[7];
+=======
+>>>>>>> 6cd63ac26c611a659daa180c8473df12c9fd94ec
 	private String skin = "PixelRed";
 	private static Klondike game = new Klondike();
 	private static Leaderboard leaderboard = new Leaderboard();
@@ -116,6 +151,7 @@ public class MainClass implements MouseListener
 	
 	private MainClass()//Constructor
 	{
+<<<<<<< HEAD
 =======
 	private String skin = "PixelRed";
 	private static Klondike game = new Klondike();
@@ -125,9 +161,63 @@ public class MainClass implements MouseListener
 	{
 		// initialize gc
 >>>>>>> pr/9
+=======
+		// initialize gc
+>>>>>>> 6cd63ac26c611a659daa180c8473df12c9fd94ec
 		gc.addMouseListener(this);
 		gc.setAntiAlias(true);
+		
+		//load pictures
+//		for(int i = 0; i<13; i++){
+//			HEART[i] = Toolkit.getDefaultToolkit().createImage("resources\\" + skin + "\\1 " + (i) + ".png");
+//		}
+
+//		for(int i = 0; i<13; i++){
+//			SPADE[i] = Toolkit.getDefaultToolkit().createImage("resources\\" + skin + "\\1 " + (i) + ".png");
+//		}
+
+//		for(int i = 0; i<13; i++){
+//			CLUB[i] = Toolkit.getDefaultToolkit().createImage("resources\\" + skin + "\\1 " + (i) + ".png");
+//		}
+
+//		for(int i = 0; i<13; i++){
+//			DIAMOND[i] = Toolkit.getDefaultToolkit().createImage("resources\\" + skin + "\\1 " + (i) + ".png");
+//		}
+		
+//		CARDBACK = Toolkit.getDefaultToolkit().createImage("resources\\" + skin + "\\cardback.png");
+		
 		HEART[0] = Toolkit.getDefaultToolkit().createImage("resources\\" + skin + "\\1 " + (1) + ".png");
+		CARDBACK = Toolkit.getDefaultToolkit().createImage("resources\\PixelRed\\cardback.png");
+		
+	}
+	
+	private static String imageCard(Card card){
+		return card.suit + " " + card.value;
+		
+//		switch(card.suit){
+//		case 1:
+//			return HEART[card.value];
+//			break;
+//		case 2:
+//			return SPADE[card.value];
+//			break;
+//		case 3:
+//			return CLUB[card.value];
+//			break;
+//		case 4:
+//			return DIAMOND[card.value];
+//			break;
+//		}
+//		
+//		return null;
+	}
+	
+	private static void drawCardStack(CardStack stack, Rectangle entity){
+		int vShift = 0;
+		while(!stack.isEmpty()){
+			//gc.drawImage(imageCard(stack.pop()), entity.x, y + 10*vShift);
+			vShift++;
+		}
 	}
 	
 	public static void main(String[] args)//main
@@ -254,8 +344,20 @@ public class MainClass implements MouseListener
 			
 			case 2: //Game Screen
 <<<<<<< HEAD
+<<<<<<< HEAD
 			//	gc.setColor(Color.GREEN);
 			//	gc.fillRect(DECK.x, DECK.y, DECK.width, DECK.height);
+=======
+				
+				CardStack copyTableau[] = game.getTableau().clone(); //copy of the game tableau
+				CardStack copyFoundation[] = game.getFoundations().clone(); //copy of the game foundations
+				CardStack copyTalon = game.getTalon();//copy of the game talon
+				
+				//set background
+				gc.setBackgroundColor(Color.GREEN);
+				
+				//Draw deck
+>>>>>>> 6cd63ac26c611a659daa180c8473df12c9fd94ec
 				gc.drawImage(CARDBACK, DECK.x, DECK.y, DECK.width, DECK.height);
 =======
 >>>>>>> pr/9
@@ -276,29 +378,63 @@ public class MainClass implements MouseListener
 				gc.setColor(Color.BLACK);
 				gc.drawString("Back", BACKBUTTON.x+SMALLBUTTONFONTSIZE, BACKBUTTON.y+(SMALLBUTTONFONTSIZE*2));
 <<<<<<< HEAD
+<<<<<<< HEAD
 =======
 				
 				//Draw draw button
 >>>>>>> pr/9
+=======
+				
+				//Draw draw button
+>>>>>>> 6cd63ac26c611a659daa180c8473df12c9fd94ec
 				gc.setColor(Color.ORANGE);
 				gc.fillRect(DRAWBUTTON.x, DRAWBUTTON.y, DRAWBUTTON.width, DRAWBUTTON.height);
 				gc.setColor(Color.BLACK);
 				gc.drawString("Draw", DRAWBUTTON.x+SMALLBUTTONFONTSIZE, DRAWBUTTON.y+SMALLBUTTONFONTSIZE);
 <<<<<<< HEAD
+<<<<<<< HEAD
 				//gc.fillRect(STACK.x, STACK.y, STACK.width, STACK.height);
+=======
+>>>>>>> 6cd63ac26c611a659daa180c8473df12c9fd94ec
 				
-				if(!game.talon.isEmpty())
-				{
-					Card[] tmp = new Card[52];
-					int i = 0;
+				
+				//Draw foundations
+				for(int i = 0; i<copyFoundation.length;i++){
 					
-					while(!game.talon.isEmpty())
-					{
-						tmp[i] = game.talon.pop();
-						i++;
+					//Draws blank rectangle
+					gc.setColor(Color.white);
+					gc.drawRect((i*100) + 200, 100, PLAYINGCARDWIDTH, PLAYINGCARDHEIGHT);
+					int Vshift = 0;
+					Card tmp;
+					
+					//Draws cards the individual tableau
+					while(!copyFoundation[i].isEmpty()){
+						Vshift ++;
+						tmp = copyFoundation[i].pop();
+						gc.drawString(tmp.suit + " " + tmp.value, (i*100) + 200, 300 + 10*Vshift);
+						System.out.println("Foundation popped");
 					}
 				}
 				
+				//Draws all Tableaux
+				for(int i = 0; i<copyTableau.length;i++){
+					
+					//Draws blank rectangle
+					gc.setColor(Color.white);
+					gc.drawRect((i*100) + 200, 300, PLAYINGCARDWIDTH, PLAYINGCARDHEIGHT);
+					int Vshift = 0;
+					Card tmp;
+					
+					//Draws cards the individual tableau
+					while(!copyTableau[i].isEmpty()){
+						Vshift ++;
+						tmp = copyTableau[i].pop();
+						gc.drawString(tmp.suit + " " + tmp.value, (i*100) + 200, 300 + 10*Vshift);
+						System.out.println("Tableau popped");
+					}
+				}
+				
+<<<<<<< HEAD
 =======
 				
 				
@@ -338,6 +474,8 @@ public class MainClass implements MouseListener
 					}
 				}
 				
+=======
+>>>>>>> 6cd63ac26c611a659daa180c8473df12c9fd94ec
 				//Draw Talon
 				
 				//Draw Blank
@@ -351,7 +489,10 @@ public class MainClass implements MouseListener
 				}
 				
 				
+<<<<<<< HEAD
 >>>>>>> pr/9
+=======
+>>>>>>> 6cd63ac26c611a659daa180c8473df12c9fd94ec
 				if(DRAGGING){ //if something is being dragged
 					gc.drawString("DRAG", 200, 200);
 					
@@ -417,6 +558,7 @@ public class MainClass implements MouseListener
 			}
 			else if(SIGNUPBUTTON.contains(e.getPoint()))
 			{
+<<<<<<< HEAD
 				SignUpAndInDialog signUpDialog = new SignUpAndInDialog("Sign Up");
 				String[] userCredentials = signUpDialog.getCredentials();
 				
@@ -435,6 +577,14 @@ public class MainClass implements MouseListener
 				{
 					//leaderboard.signUp(userCredentials[0], userCredentials[1]);
 >>>>>>> pr/9
+=======
+				//SignUpDialog signUpDialog = new SignUpDialog();
+				//String[] userCredentials = signUpDialog.getCredentials();
+				
+				try
+				{
+					//leaderboard.signUp(userCredentials[0], userCredentials[1]);
+>>>>>>> 6cd63ac26c611a659daa180c8473df12c9fd94ec
 				}
 				catch(NullPointerException ex)
 				{
